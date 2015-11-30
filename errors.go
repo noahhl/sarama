@@ -92,6 +92,9 @@ const (
 	ErrMessageSetSizeTooLarge          KError = 18
 	ErrNotEnoughReplicas               KError = 19
 	ErrNotEnoughReplicasAfterAppend    KError = 20
+	ErrInvalidRequiredAcks             KError = 21
+	ErrIllegalGeneration               KError = 22
+	ErrInconsistentGroupProtocol       KError = 23
 )
 
 func (err KError) Error() string {
@@ -140,6 +143,12 @@ func (err KError) Error() string {
 		return "kafka server: Messages are rejected since there are fewer in-sync replicas than required."
 	case ErrNotEnoughReplicasAfterAppend:
 		return "kafka server: Messages are written to the log, but to fewer in-sync replicas than required."
+	case ErrInvalidRequiredAcks:
+		return "kafka server: requested requiredAcks is invalid."
+	case ErrIllegalGeneration:
+		return "kafka server: the provided generation id is not the current generation."
+	case ErrInconsistentGroupProtocol:
+		return "kafka server: the specified protocol(s) is not compatible with the current group."
 	}
 
 	return fmt.Sprintf("Unknown error, how did this happen? Error code = %d", err)
